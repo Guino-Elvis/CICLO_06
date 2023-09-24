@@ -35,37 +35,37 @@ import lombok.NoArgsConstructor;
 public class Materiales {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
     @Column(name = "mater_entre", nullable = true, length = 200)
-    private String materEntre;   
-    @JsonFormat(pattern = "yyyy-MM-dd")    
+    private String materEntre;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Basic(optional = false)
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date fecha;   
-    @Basic(optional = false)    
+    private Date fecha;
+    @Basic(optional = false)
     @Column(name = "hora_reg", nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date horaReg;  
+    private Date horaReg;
     @Size(max = 60)
     private String latitud;
     @Size(max = 60)
-    private String longitud;  
+    private String longitud;
     @Basic(optional = false)
     @Column(name = "mod_fh", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date modFh;     
+    private Date modFh;
     @Size(max = 2)
-    @Column(name="offlinex",length = 2,nullable = false)
-    private String offlinex;   
+    @Column(name = "offlinex", length = 2, nullable = false)
+    private String offlinex;
 
     @JoinColumn(name = "evento_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnoreProperties({"subactasises", "materialeses", "asistencias"})
-    private Evento eventoId; 
-    
+    @JsonIgnoreProperties({ "subactasises", "materialeses", "asistencias" })
+    private Evento eventoId;
+
     @JoinColumn(name = "matricula_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnoreProperties({"subactasises", "materialeses", "asistencias"}) 
-    private Matricula matriculaId;     
+    @JsonIgnoreProperties({ "subactasises", "materialeses", "asistencias" })
+    private Matricula matriculaId;
 }

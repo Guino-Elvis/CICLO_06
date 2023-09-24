@@ -53,7 +53,7 @@ fun TopBar(
                     contentDescription = "Search Icon"
                 )
             }
-          IconButton(onClick = {
+            IconButton(onClick = {
                 openDialog()
             }) {
                 Icon(

@@ -1,9 +1,9 @@
 package pe.edu.upeu.asistenciaupeujc.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -15,6 +15,7 @@ sealed class Destinations(
     val title: String,
     val icon: ImageVector
 ) {
+    object Login:Destinations("login", "Login", Icons.Filled.Settings)
     object Pantalla1 : Destinations( "pantalla1", "Pantalla 1", Icons.Filled.Home )
     object Pantalla2 : Destinations("pantalla2/?newText={newText}", "Pantalla 2", Icons.Filled.Settings) {
         fun createRoute(newText: String) = "pantalla2/?newText=$newText"
@@ -24,7 +25,20 @@ sealed class Destinations(
 
     object Pantalla5 : Destinations("pantalla5", "Pantalla 5x", Icons.Filled.AccountCircle )
 
-    object Pantalla6 : Destinations("pantalla6", "Pantalla 6 PAPU", Icons.Filled.AccountBox)
+    object ActividadUI: Destinations("actividadUI","Adm. Actividades", Icons.Filled.DateRange)
 
-    object Pantalla7 : Destinations("pantalla7", "Pantalla 7", Icons.Filled.Create)
+    object ActividadForm: Destinations("actividadForm?actId={actId}", "Form Actividad", Icons.Filled.Add){
+        fun passId(actId:String?):String{
+            return "actividadForm?actId=$actId"
+        }
+    }
+
+    object MaterialesxUI: Destinations("materialesxUI","Adm. Materialesxes", Icons.Filled.DateRange)
+
+    object MaterialesxForm: Destinations("MaterialesxForm?matId={matId}", "Form Materialesx", Icons.Filled.Add){
+        fun passId(matId:String?):String{
+            return "materialesxForm?matId=$matId"
+        }
+    }
+
 }

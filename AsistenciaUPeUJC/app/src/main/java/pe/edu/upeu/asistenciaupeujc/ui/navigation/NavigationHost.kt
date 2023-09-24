@@ -1,7 +1,7 @@
 package pe.edu.upeu.asistenciaupeujc.ui.navigation
 
-import Pantalla7
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
@@ -13,8 +13,11 @@ import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.Pantalla2
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.Pantalla3
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.Pantalla4
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.Pantalla5
-import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.Pantalla6
-
+import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.actividad.ActividadForm
+import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.actividad.ActividadUI
+import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.login.LoginScreen
+import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materialesx.MaterialesxForm
+import pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materialesx.MaterialesxUI
 
 @Composable
 fun NavigationHost(
@@ -24,8 +27,12 @@ fun NavigationHost(
 ) {
 
     NavHost(
-        navController = navController, startDestination = Destinations.Pantalla1.route
+        navController = navController, startDestination = Destinations.Login.route
     ) {
+        composable(Destinations.Login.route){
+            LoginScreen(navigateToHome = { navController.navigate(Destinations.Pantalla1.route)})
+        }
+
         composable(Destinations.Pantalla1.route) {
             Pantalla1(
                 navegarPantalla2 = { newText ->navController.navigate(Destinations.Pantalla2.createRoute(newText))
@@ -46,8 +53,30 @@ fun NavigationHost(
         composable(Destinations.Pantalla4.route) { Pantalla4() }
 
         composable(Destinations.Pantalla5.route) { Pantalla5() }
-        composable(Destinations.Pantalla6.route) { Pantalla6() }
-        composable(Destinations.Pantalla7.route) { Pantalla7() }
 
+        composable(Destinations.ActividadUI.route){
+            ActividadUI(navegarEditarAct = {newText->navController.navigate(Destinations.ActividadForm.passId(newText))}, navController =navController )
+        }
+
+        composable(Destinations.ActividadForm.route, arguments = listOf(navArgument("actId"){
+            defaultValue="actId"
+        })){
+            navBackStackEntry -> var actId=navBackStackEntry.arguments?.getString("actId")
+            requireNotNull(actId)
+            ActividadForm(text = actId, darkMode = darkMode, navController =navController )
+        }
+
+
+        composable(Destinations.MaterialesxUI.route){
+            MaterialesxUI(navegarEditarAct = {newText->navController.navigate(Destinations.MaterialesxForm.passId(newText))}, navController =navController )
+        }
+
+        composable(Destinations.MaterialesxForm.route, arguments = listOf(navArgument("matId"){
+            defaultValue="matId"
+        })){
+                navBackStackEntry -> var matId=navBackStackEntry.arguments?.getString("matId")
+            requireNotNull(matId)
+            MaterialesxForm(text = matId, darkMode = darkMode, navController =navController )
+        }
     }
 }
