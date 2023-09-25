@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "26cb5f6f2cb800680b64510d0c4dcd43",
+    "identityHash": "b83d3f8f5f8ec4b355edfc99db36cfba",
     "entities": [
       {
         "tableName": "actividad",
@@ -110,7 +110,7 @@
       },
       {
         "tableName": "materialesx",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cui` TEXT NOT NULL, `tipoCui` TEXT NOT NULL, `materEntre` TEXT NOT NULL, `fecha` TEXT NOT NULL, `horaReg` TEXT NOT NULL, `latituda` TEXT NOT NULL, `longituda` TEXT NOT NULL, `modFh` TEXT NOT NULL, `offlinex` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cui` TEXT NOT NULL, `tipoCui` TEXT NOT NULL, `materEntre` TEXT NOT NULL, `fecha` TEXT NOT NULL, `horaReg` TEXT NOT NULL, `latituda` TEXT NOT NULL, `longituda` TEXT NOT NULL, `modFh` TEXT NOT NULL, `offlinex` TEXT NOT NULL, `actividadId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -171,6 +171,74 @@
             "columnName": "offlinex",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "actividadId",
+            "columnName": "actividadId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "materiales",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `materEntre` TEXT NOT NULL, `fecha` TEXT NOT NULL, `horaReg` TEXT NOT NULL, `latituda` TEXT NOT NULL, `longituda` TEXT NOT NULL, `modFh` TEXT NOT NULL, `offlinex` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "materEntre",
+            "columnName": "materEntre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "horaReg",
+            "columnName": "horaReg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latituda",
+            "columnName": "latituda",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longituda",
+            "columnName": "longituda",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "modFh",
+            "columnName": "modFh",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offlinex",
+            "columnName": "offlinex",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -186,7 +254,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '26cb5f6f2cb800680b64510d0c4dcd43')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b83d3f8f5f8ec4b355edfc99db36cfba')"
     ]
   }
 }

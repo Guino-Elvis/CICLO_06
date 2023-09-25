@@ -41,4 +41,13 @@ sealed class Destinations(
         }
     }
 
+
+    object MaterialesUI: Destinations("materialesUI","Adm. Materialeses", Icons.Filled.DateRange)
+
+    object MaterialesForm: Destinations("MaterialesForm?matId={matId}", "Form Materiales", Icons.Filled.Add){
+        fun passId(mattId:String?):String{
+            return "materialesForm?matId=$mattId"
+        }
+    }
+
 }

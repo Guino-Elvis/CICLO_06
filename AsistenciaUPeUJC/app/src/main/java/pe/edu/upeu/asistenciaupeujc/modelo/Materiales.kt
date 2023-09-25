@@ -7,16 +7,28 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 
-@Entity(tableName = "materialesx"
-    /*,
-    foreignKeys = [ForeignKey(entity = Actividad::class, parentColumns = ["id"], childColumns = ["actividadId"], onDelete = ForeignKey.CASCADE)
+@Entity(
+    tableName = "materiales"
+   /* ,
+    foreignKeys = [
+        ForeignKey(
+            entity = Evento::class,
+            parentColumns = ["id"],
+            childColumns = ["eventoId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Matricula::class,
+            parentColumns = ["id"],
+            childColumns = ["matriculaId"],
+            onDelete = ForeignKey.CASCADE
+        )
     ]*/
 )
-data class Materialesx(
+data class Materiales(
     @PrimaryKey(autoGenerate = true)
     var id: Long,
-    var cui: String,
-    var tipoCui: String,
+
     var materEntre: String,
     var fecha: String,
     var horaReg: String,
@@ -24,28 +36,12 @@ data class Materialesx(
     var longituda: String,
     var modFh: String,
     var offlinex: String,
-    var actividadId: Long
+
 )
 
-data class MaterialesxConActividad(
+/*data class MaterialesConEventoyMatricula(
     var id: Long,
-    var cui: String,
-    var tipoCui: String,
-    var materEntre: String,
-    var fecha: String,
-    var horaReg: String,
-    var latituda: String,
-    var longituda: String,
-    var modFh: String,
-    var offlinex: String,
-    var actividadId: Long,
-    var nombreActividad: String
-)
 
-data class MaterialesxReport(
-    var id: Long,
-    var cui: String,
-    var tipoCui: String,
     var materEntre: String,
     var fecha: String,
     var horaReg: String,
@@ -53,5 +49,20 @@ data class MaterialesxReport(
     var longituda: String,
     var modFh: String,
     var offlinex: String,
-    var actividadId: Actividad
+    var eventoId: Long,
+    var matriculaId: Long,
+    var nombreEvento: String,
+    var estado: String
+)
+*/
+data class MaterialesReport(
+    var id: Long,
+    var materEntre: String,
+    var fecha: String,
+    var horaReg: String,
+    var latituda: String,
+    var longituda: String,
+    var modFh: String,
+    var offlinex: String,
+
 )

@@ -1,4 +1,4 @@
-package pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materialesx
+package pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materiales
 
 import android.annotation.SuppressLint
 import android.os.Looper
@@ -33,8 +33,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pe.edu.upeu.asistenciaupeujc.modelo.Actividad
 import pe.edu.upeu.asistenciaupeujc.modelo.ComboModel
-import pe.edu.upeu.asistenciaupeujc.modelo.Materialesx
-import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesxReport
+import pe.edu.upeu.asistenciaupeujc.modelo.Materiales
+import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesReport
 import pe.edu.upeu.asistenciaupeujc.ui.navigation.Destinations
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.ProgressBarLoading
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.Spacer
@@ -50,23 +50,23 @@ import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.form.TimePickerCu
 import pe.edu.upeu.asistenciaupeujc.utils.TokenUtils
 
 @Composable
-fun MaterialesxForm(
+fun MaterialesForm(
     text: String,
     darkMode: MutableState<Boolean>,
     navController: NavHostController,
-    viewModel: MaterialesxFormViewModel= hiltViewModel()
+    viewModel: MaterialesFormViewModel= hiltViewModel()
 ) {
-    val materialesxD:Materialesx
+    val materialesD:Materiales
     if (text!="0"){
-        materialesxD = Gson().fromJson(text, Materialesx::class.java)
+        materialesD = Gson().fromJson(text, Materiales::class.java)
     }else{
-        materialesxD= Materialesx(0,"","", "","","","","","","",0)
+        materialesD= Materiales(0,"","", "","","","","")
     }
 
-    formulario(materialesxD.id!!,
+    formulario(materialesD.id!!,
         darkMode,
         navController,
-        materialesxD,
+        materialesD,
         viewModel
     )
 
@@ -82,11 +82,11 @@ fun MaterialesxForm(
 fun formulario(id:Long,
                darkMode: MutableState<Boolean>,
                navController: NavHostController,
-               materialesx:Materialesx,
-               viewModel: MaterialesxFormViewModel){
+               materiales:Materiales,
+               viewModel: MaterialesFormViewModel){
 
-    Log.i("VERRR", "d: "+materialesx?.id!!)
-    val person=Materialesx(0,"","", "","","","","","","",0)
+    Log.i("VERRR", "d: "+materiales?.id!!)
+    val person=Materiales(0,"","", "","","","","")
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val isLoading by viewModel.isLoading.observeAsState(false)
@@ -123,22 +123,21 @@ fun formulario(id:Long,
     Scaffold(modifier = Modifier.padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 32.dp)){
         BuildEasyForms { easyForm ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-             /*   NameTextField(easyForms = easyForm, text =actividad?.nombreActividad!!,"Nomb. Actividad:", MyFormKeys.NAME )*/
+                /*   NameTextField(easyForms = easyForm, text =actividad?.nombreActividad!!,"Nomb. Actividad:", MyFormKeys.NAME )*/
                 var listE = listOf(
                     ComboModel("SI","SI"),
                     ComboModel("NO","NO"),
                 )
 
-                ComboBox(easyForm = easyForm, "offlinex:", materialesx?.offlinex!!, listE)
-                NameTextField(easyForms = easyForm, text =materialesx?.cui!!,"Nomb. Cui:", MyFormKeys.CUI )
-                NameTextField(easyForms = easyForm, text =materialesx?.tipoCui!!,"Nomb. tipoCui:", MyFormKeys.TIPOCUI )
-                NameTextField(easyForms = easyForm, text =materialesx?.materEntre!!,"mater_entre:", MyFormKeys.MATERENTRE )
-                DatePickerCustom(easyForm = easyForm, label = "Fecha", texts = materialesx?.fecha!!, MyFormKeys.FECHA,"yyyy-MM-dd")
+                ComboBox(easyForm = easyForm, "offlinex:", materiales?.offlinex!!, listE)
+                NameTextField(easyForms = easyForm, text =materiales?.materEntre!!,"mater_entre:", MyFormKeys.MATERENTRE )
+                DatePickerCustom(easyForm = easyForm, label = "Fecha", texts = materiales?.fecha!!, MyFormKeys.FECHA,"yyyy-MM-dd")
 
-                TimePickerCustom(easyForm = easyForm, label = "hora_reg", texts = materialesx?.horaReg!!, MyFormKeys.HORAREG, "HH:mm:ss")
-                DatePickerCustom(easyForm = easyForm, label = "modFh", texts = materialesx?.modFh!!, MyFormKeys.MODFH,"yyyy-MM-dd")
+                TimePickerCustom(easyForm = easyForm, label = "hora_reg", texts = materiales?.horaReg!!, MyFormKeys.HORAREG, "HH:mm:ss")
+                DatePickerCustom(easyForm = easyForm, label = "modFh", texts = materiales?.modFh!!, MyFormKeys.MODFH,"yyyy-MM-dd")
 
-                NameTextField(easyForms = easyForm, text =materialesx?.actividadId!!.toString(),"actividadID:", MyFormKeys.ACTIVIDADID )
+                /*NameTextField(easyForms = easyForm, text =materiales?.eventoId!!.toString(),"eventoID:", MyFormKeys.EVENTOID )
+                NameTextField(easyForms = easyForm, text =materiales?.matriculaId!!.toString(),"matriculaID:", MyFormKeys.MATRICULAID )*/
 
 
 
@@ -147,34 +146,35 @@ fun formulario(id:Long,
                     AccionButtonSuccess(easyForms = easyForm, "Guardar", id){
                         val lista=easyForm.formData()
                         person.offlinex=splitCadena((lista.get(0) as EasyFormsResult.GenericStateResult<String>).value)
-                        person.cui=(lista.get(1) as EasyFormsResult.StringResult).value
-                        person.tipoCui=(lista.get(2) as EasyFormsResult.StringResult).value
-                        person.materEntre=(lista.get(3) as EasyFormsResult.StringResult).value
-                        person.fecha=(lista.get(4) as EasyFormsResult.GenericStateResult<String>).value
-                        person.horaReg=(lista.get(5) as EasyFormsResult.GenericStateResult<String>).value
-                        person.modFh=(lista.get(6) as EasyFormsResult.GenericStateResult<String>).value
-                        person.actividadId = (lista.get(7) as EasyFormsResult.StringResult).value.toLong()
+                        person.materEntre=(lista.get(1) as EasyFormsResult.StringResult).value
+                        person.fecha=(lista.get(2) as EasyFormsResult.GenericStateResult<String>).value
+                        person.horaReg=(lista.get(3) as EasyFormsResult.GenericStateResult<String>).value
+                        person.modFh=(lista.get(4) as EasyFormsResult.GenericStateResult<String>).value
+                        /*person.eventoId = (lista.get(5) as EasyFormsResult.StringResult).value.toLong()
+                        person.matriculaId = (lista.get(6) as EasyFormsResult.StringResult).value.toLong()*/
+
 
 
                         if (id==0.toLong()){
 
                             Log.i("AGREGAR", "OF:"+ person.offlinex)
-                            Log.i("AGREGARID", "OF:"+ person.actividadId)
+                            /*Log.i("AGREGARID", "OF:"+ person.eventoId)
+                            Log.i("AGREGARID", "OF:"+ person.matriculaId)*/
 
-                            viewModel.addMaterialesx(person)
+                            viewModel.addMateriales(person)
 
-                            navController.navigate(Destinations.MaterialesxUI.route)
+                            navController.navigate(Destinations.MaterialesUI.route)
                         }else{
                             person.id=id
                             Log.i("MODIFICAR", "M:"+person)
-                            viewModel.editMaterialesx(person)
-                            navController.navigate(Destinations.MaterialesxUI.route)
+                            viewModel.editMateriales(person)
+                            navController.navigate(Destinations.MaterialesUI.route)
                         }
 
                     }
                     Spacer()
                     AccionButtonCancel(easyForms = easyForm, "Cancelar"){
-                        navController.navigate(Destinations.MaterialesxUI.route)
+                        navController.navigate(Destinations.MaterialesUI.route)
                     }
                 }
             }

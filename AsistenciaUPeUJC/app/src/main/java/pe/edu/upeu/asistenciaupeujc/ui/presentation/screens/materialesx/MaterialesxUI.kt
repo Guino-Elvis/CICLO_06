@@ -59,6 +59,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import pe.edu.upeu.asistenciaupeujc.R
 import pe.edu.upeu.asistenciaupeujc.modelo.Materialesx
+import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesxConActividad
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.BottomNavigationBar
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.FabItem
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.LoadingCard
@@ -93,10 +94,10 @@ val formatoFecha: DateTimeFormatter? = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 @Composable
 fun MyApp(navController: NavHostController,
           onAddClick: (() -> Unit)? = null,
-          onDeleteClick: ((toDelete: Materialesx) -> Unit)? = null,
-          materialesxes: List<Materialesx>,
+          onDeleteClick: ((toDelete: MaterialesxConActividad) -> Unit)? = null,
+          materialesxes: List<MaterialesxConActividad>,
           isLoading: Boolean,
-          onEditClick: ((toPersona: Materialesx) -> Unit)? = null,
+          onEditClick: ((toPersona: MaterialesxConActividad) -> Unit)? = null,
 ) {
     val context = LocalContext.current
     //val navController = rememberNavController()
@@ -189,7 +190,7 @@ fun MyApp(navController: NavHostController,
                             Column(
                                 Modifier.weight(1f),
                             ) {
-                                Text(" ${materialesx.offlinex}", fontWeight = FontWeight.Bold)
+                                Text(" ${materialesx.offlinex} id: ${materialesx.id}", fontWeight = FontWeight.Bold)
                                 val datex = LocalDate.parse(materialesx.fecha!!, DateTimeFormatter.ISO_DATE)
                                 var fecha=formatoFecha?.format(datex)
                                 Text(""+fecha, color =

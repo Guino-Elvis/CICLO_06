@@ -1,6 +1,7 @@
 package pe.edu.upeu.asistenciaupeujc.data.remote
 
 import pe.edu.upeu.asistenciaupeujc.modelo.Materialesx
+import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesxReport
 import pe.edu.upeu.asistenciaupeujc.modelo.MsgGeneric
 import retrofit2.Response
 import retrofit2.http.Body
@@ -15,7 +16,7 @@ import retrofit2.http.Query
 
 interface RestMaterialesx {
     @GET("/asis/materialesx/list")
-    suspend fun reportarMaterialesx(@Header("Authorization") token:String):Response<List<Materialesx>>
+    suspend fun reportarMaterialesx(@Header("Authorization") token:String):Response<List<MaterialesxReport>>
 
 
     @GET("/asis/materialesx/buscar/{id}")

@@ -12,13 +12,15 @@ import pe.edu.upeu.asistenciaupeujc.data.remote.RestActividad
 import pe.edu.upeu.asistenciaupeujc.data.remote.RestMaterialesx
 import pe.edu.upeu.asistenciaupeujc.modelo.Actividad
 import pe.edu.upeu.asistenciaupeujc.modelo.Materialesx
+import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesxConActividad
+import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesxReport
 import pe.edu.upeu.asistenciaupeujc.utils.TokenUtils
 import javax.inject.Inject
 
 interface MaterialesxRepository {
 
-    suspend fun deleteMaterialesx(materialesx: Materialesx)
-    fun reportarMaterialesxes(): LiveData<List<Materialesx>>
+    suspend fun deleteMaterialesx(materialesx: MaterialesxConActividad)
+    fun reportarMaterialesxes(): LiveData<List<MaterialesxConActividad>>
 
     fun buscarMaterialesxId(id:Long): LiveData<Materialesx>
 
@@ -31,21 +33,25 @@ class MaterialesxRepositoryImp @Inject constructor(
     private val restMaterialesx: RestMaterialesx,
     private val materialesxDao: MaterialesxDao
 ): MaterialesxRepository{
-    override suspend fun deleteMaterialesx(materialesx: Materialesx){
+    override suspend fun deleteMaterialesx(materialesx: MaterialesxConActividad){
         CoroutineScope(Dispatchers.IO).launch {
             restMaterialesx.deleteMaterialesx(TokenUtils.TOKEN_CONTENT,materialesx.id)
         }
-        materialesxDao.eliminarMaterialesx(materialesx)
+        materialesxDao.eliminarMaterialesx(materialesx.id)
     }
 
 
-    override fun reportarMaterialesxes(): LiveData<List<Materialesx>> {
+    override fun reportarMaterialesxes(): LiveData<List<MaterialesxConActividad>> {
         try {
             CoroutineScope(Dispatchers.IO).launch{
                 delay(3000)
                 val data=restMaterialesx.reportarMaterialesx(TokenUtils.TOKEN_CONTENT).body()!!
-                materialesxDao.insertarMaterialesxes(data)
+                val dataxx = data.map {
+                    Materialesx(it.id, it.cui, it.tipoCui,it.materEntre,it.fecha,it.horaReg, it.latituda,it.longituda, it.modFh, it.offlinex, it.actividadId.id)
+                }
+                materialesxDao.insertarMaterialesxes(dataxx)
             }
+
         }catch (e:Exception){
             Log.i("ERROR", "Error: ${e.message}")
         }
@@ -58,11 +64,12 @@ class MaterialesxRepositoryImp @Inject constructor(
 
 
     override suspend fun insertarMaterialesx(materialesx: Materialesx):Boolean{
+        //Log.i("DATAXXX", "${materialesx.actividadId}")
         return restMaterialesx.insertarMaterialesx(TokenUtils.TOKEN_CONTENT, materialesx).body()!=null
     }
 
     override suspend fun modificarRemoteMaterialesx(materialesx: Materialesx):Boolean{
-        var dd:Boolean=false
+
         CoroutineScope(Dispatchers.IO).launch {
             Log.i("VER", TokenUtils.TOKEN_CONTENT)
         }

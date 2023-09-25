@@ -1,4 +1,4 @@
-package pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.actividad
+package pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materiales
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,10 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.google.gson.Gson
-import pe.edu.upeu.asistenciaupeujc.modelo.Actividad
 import pe.edu.upeu.asistenciaupeujc.ui.navigation.Destinations
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.ConfirmDialog
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.Spacer
@@ -58,14 +55,15 @@ import pe.edu.upeu.asistenciaupeujc.utils.TokenUtils
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import pe.edu.upeu.asistenciaupeujc.R
+import pe.edu.upeu.asistenciaupeujc.modelo.Materiales
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.BottomNavigationBar
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.FabItem
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.LoadingCard
 import pe.edu.upeu.asistenciaupeujc.ui.presentation.components.MultiFloatingActionButton
 
 @Composable
-fun ActividadUI (navegarEditarAct: (String) -> Unit, viewModel:
-ActividadViewModel= hiltViewModel(), navController: NavHostController
+fun MaterialesUI (navegarEditarAct: (String) -> Unit, viewModel:
+MaterialesViewModel= hiltViewModel(), navController: NavHostController
 ){
     val actis by viewModel.activ.observeAsState(arrayListOf())
     val isLoading by viewModel.isLoading.observeAsState(false)
@@ -75,7 +73,7 @@ ActividadViewModel= hiltViewModel(), navController: NavHostController
         //viewModel.addUser()
         navegarEditarAct((0).toString())
     }, onDeleteClick = {
-        viewModel.deleteActividad(it)
+        viewModel.deleteMateriales(it)
     }, actis, isLoading,
         onEditClick = {
             val jsonString = Gson().toJson(it)
@@ -90,25 +88,25 @@ val formatoFecha: DateTimeFormatter? = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MyApp( navController: NavHostController,
-    onAddClick: (() -> Unit)? = null,
-    onDeleteClick: ((toDelete: Actividad) -> Unit)? = null,
-    actividades: List<Actividad>,
-    isLoading: Boolean,
-    onEditClick: ((toPersona: Actividad) -> Unit)? = null,
+fun MyApp(navController: NavHostController,
+          onAddClick: (() -> Unit)? = null,
+          onDeleteClick: ((toDelete: Materiales) -> Unit)? = null,
+          materialeses: List<Materiales>,
+          isLoading: Boolean,
+          onEditClick: ((toPersona: Materiales) -> Unit)? = null,
 ) {
     val context = LocalContext.current
     //val navController = rememberNavController()
     val navigationItems2 = listOf(
-        Destinations.ActividadUI,
+        Destinations.MaterialesUI,
         Destinations.Pantalla1,
         Destinations.Pantalla2,
         Destinations.Pantalla3
     )
-  /*  val scaffoldState = rememberScaffoldState(
-        drawerState = rememberDrawerState(initialValue =
-        DrawerValue.Closed)
-    )*/
+    /*  val scaffoldState = rememberScaffoldState(
+          drawerState = rememberDrawerState(initialValue =
+          DrawerValue.Closed)
+      )*/
 
     val fabItems = listOf(
         FabItem(
@@ -121,14 +119,14 @@ fun MyApp( navController: NavHostController,
         },
         FabItem(
             Icons.Filled.Favorite,
-            "Add Actvidad"
+            "Add MATERIAL"
         ) { onAddClick?.invoke() }
     )
 
     Scaffold(
         bottomBar = {
             BottomAppBar {
-            BottomNavigationBar(navigationItems2, navController = navController)
+                BottomNavigationBar(navigationItems2, navController = navController)
             }
         },
         modifier = Modifier,
@@ -140,7 +138,7 @@ fun MyApp( navController: NavHostController,
                 showLabels = true
             )
         },
-    floatingActionButtonPosition = FabPosition.End,
+        floatingActionButtonPosition = FabPosition.End,
     ) {
         Box(modifier = Modifier.fillMaxSize()){
             LazyColumn(modifier = Modifier
@@ -149,7 +147,7 @@ fun MyApp( navController: NavHostController,
                 //.offset(x = (16).dp, y = (-32).dp),
                 userScrollEnabled= true,
             ){
-                var itemCount = actividades.size
+                var itemCount = materialeses.size
                 if (isLoading) itemCount++
                 items(count = itemCount) { index ->
                     var auxIndex = index;
@@ -158,7 +156,7 @@ fun MyApp( navController: NavHostController,
                             return@items LoadingCard()
                         auxIndex--
                     }
-                    val actividad = actividades[auxIndex]
+                    val materiales = materialeses[auxIndex]
                     Card(
                         shape = RoundedCornerShape(8.dp),
                         elevation = CardDefaults.cardElevation(
@@ -175,10 +173,10 @@ fun MyApp( navController: NavHostController,
                                     //.clip(CircleShape)
                                     .clip(RoundedCornerShape(8.dp)),
                                 painter = rememberImagePainter(
-                                    data = actividad.evaluar,
+                                    data = materiales.materEntre,
                                     builder = {
-                                        placeholder(R.drawable.bg)
-                                        error(R.drawable.bg)
+                                        placeholder(R.drawable.actividadddd)
+                                        error(R.drawable.actividadddd)
                                     }
                                 ),
                                 contentDescription = null,
@@ -188,14 +186,14 @@ fun MyApp( navController: NavHostController,
                             Column(
                                 Modifier.weight(1f),
                             ) {
-                                Text("${actividad.nombreActividad} - ${actividad.estado} id: ${actividad.id}", fontWeight = FontWeight.Bold)
-                                val datex = LocalDate.parse(actividad.fecha!!, DateTimeFormatter.ISO_DATE)
+                                Text(" ${materiales.offlinex} id: ${materiales.id}", fontWeight = FontWeight.Bold)
+                                val datex = LocalDate.parse(materiales.fecha!!, DateTimeFormatter.ISO_DATE)
                                 var fecha=formatoFecha?.format(datex)
                                 Text(""+fecha, color =
                                 MaterialTheme.colorScheme.primary)
                             }
 
-                           Spacer()
+                            Spacer()
                             val showDialog = remember { mutableStateOf(false) }
                             IconButton(onClick = {
                                 showDialog.value = true
@@ -206,7 +204,7 @@ fun MyApp( navController: NavHostController,
                                 ConfirmDialog(
                                     message = "Esta seguro de eliminar?",
                                     onConfirm = {
-                                        onDeleteClick?.invoke(actividad)
+                                        onDeleteClick?.invoke(materiales)
                                         showDialog.value=false
                                     },
                                     onDimins = {
@@ -218,7 +216,7 @@ fun MyApp( navController: NavHostController,
                             IconButton(onClick = {
                                 Log.i("VERTOKEN", "Holas")
                                 Log.i("VERTOKEN", TokenUtils.TOKEN_CONTENT)
-                                onEditClick?.invoke(actividad)
+                                onEditClick?.invoke(materiales)
                             }) {
                                 Icon(
                                     Icons.Filled.Edit,

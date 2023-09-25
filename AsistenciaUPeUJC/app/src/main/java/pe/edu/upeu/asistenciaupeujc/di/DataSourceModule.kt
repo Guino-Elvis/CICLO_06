@@ -1,6 +1,7 @@
 package pe.edu.upeu.asistenciaupeujc.di
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -11,8 +12,10 @@ import okhttp3.OkHttpClient
 import pe.edu.upeu.asistenciaupeujc.data.local.DbDataSource
 import pe.edu.upeu.asistenciaupeujc.data.local.dao.ActividadDao
 import pe.edu.upeu.asistenciaupeujc.data.local.dao.MaterialesxDao
+import pe.edu.upeu.asistenciaupeujc.data.local.dao.MaterialesDao
 import pe.edu.upeu.asistenciaupeujc.data.remote.RestActividad
 import pe.edu.upeu.asistenciaupeujc.data.remote.RestMaterialesx
+import pe.edu.upeu.asistenciaupeujc.data.remote.RestMateriales
 import pe.edu.upeu.asistenciaupeujc.data.remote.RestUsuario
 import pe.edu.upeu.asistenciaupeujc.utils.TokenUtils
 import retrofit2.Retrofit
@@ -40,11 +43,13 @@ class DataSourceModule {
             .writeTimeout(15, TimeUnit.SECONDS)
             .build()
         if (retrofit==null){
+            Log.i("RETROF", "da: ${retrofit}")
             retrofit=Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
+                //.client(okHttpClient)
                 .baseUrl(baseUrl).build()
         }
+        Log.i("RETROFOUT", "da: ${retrofit}")
         return retrofit!!
     }
 
@@ -68,6 +73,12 @@ class DataSourceModule {
         return retrofit.create(RestMaterialesx::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun restMateriales(retrofit: Retrofit):RestMateriales{
+        return retrofit.create(RestMateriales::class.java)
+    }
+
 
     @Singleton
     @Provides
@@ -89,5 +100,13 @@ class DataSourceModule {
     fun materialesxDao(db:DbDataSource):MaterialesxDao{
         return db.materialesxDao()
     }
+
+
+    @Singleton
+    @Provides
+    fun materialesDao(db:DbDataSource):MaterialesDao{
+        return db.materialesDao()
+    }
+
 
 }

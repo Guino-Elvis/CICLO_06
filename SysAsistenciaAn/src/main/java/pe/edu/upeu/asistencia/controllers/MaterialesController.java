@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.edu.upeu.asistencia.dtos.MaterialesxDto;
-import pe.edu.upeu.asistencia.models.Materialesx;
-import pe.edu.upeu.asistencia.services.MaterialesxService;
+import pe.edu.upeu.asistencia.dtos.MaterialesDto;
+import pe.edu.upeu.asistencia.models.Materiales;
+import pe.edu.upeu.asistencia.services.MaterialesService;
 
 /**
  *
  * @author DELL
  */
 @RestController
-@RequestMapping("/asis/materialesx")
-public class MaterialesxController {
+@RequestMapping("/asis/materiales")
+public class MaterialesController {
 
     @Autowired
-    private MaterialesxService materialesxService;
+    private MaterialesService materialesService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<List<Materialesx>> listMaterialesx() {
-        List<Materialesx> actDto = materialesxService.findAll();
+    public ResponseEntity<List<Materiales>> listMateriales() {
+        List<Materiales> actDto = materialesService.findAll();
 
         // Gson gson = new Gson();
         // String jsonCartList = gson.toJson(actDto);
@@ -44,29 +44,28 @@ public class MaterialesxController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Materialesx> createMaterialesx(@RequestBody MaterialesxDto.MaterialesxCrearDto materialesx) {
+    public ResponseEntity<Materiales> createMateriales(@RequestBody MaterialesDto.MaterialesCrearDto materiales) {
 
-        
-        Materialesx data = materialesxService.save(materialesx);
+        Materiales data = materialesService.save(materiales);
         return ResponseEntity.ok(data);
     }
 
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Materialesx> getMaterialesxById(@PathVariable Long id) {
-        Materialesx materialesx = materialesxService.getMaterialesxById(id);
-        return ResponseEntity.ok(materialesx);
+    public ResponseEntity<Materiales> getMaterialesById(@PathVariable Long id) {
+        Materiales materiales = materialesService.getMaterialesById(id);
+        return ResponseEntity.ok(materiales);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteMaterialesx(@PathVariable Long id) {
-        Materialesx materialesx = materialesxService.getMaterialesxById(id);
-        return ResponseEntity.ok(materialesxService.delete(materialesx.getId()));
+    public ResponseEntity<Map<String, Boolean>> deleteMateriales(@PathVariable Long id) {
+        Materiales materiales = materialesService.getMaterialesById(id);
+        return ResponseEntity.ok(materialesService.delete(materiales.getId()));
     }
 
     @PutMapping("/editar/{id}")
-    public ResponseEntity<Materialesx> updateMaterialesx(@PathVariable Long id,
-            @RequestBody MaterialesxDto.MaterialesxCrearDto materialesxDetails) {
-        Materialesx updatedMaterialesx = materialesxService.update(materialesxDetails, id);
-        return ResponseEntity.ok(updatedMaterialesx);
+    public ResponseEntity<Materiales> updateMateriales(@PathVariable Long id,
+            @RequestBody MaterialesDto.MaterialesCrearDto materialesDetails) {
+        Materiales updatedMateriales = materialesService.update(materialesDetails, id);
+        return ResponseEntity.ok(updatedMateriales);
     }
 }

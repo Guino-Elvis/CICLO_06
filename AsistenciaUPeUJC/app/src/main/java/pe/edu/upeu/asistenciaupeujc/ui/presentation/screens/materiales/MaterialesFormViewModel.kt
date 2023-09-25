@@ -1,4 +1,4 @@
-package pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materialesx
+package pe.edu.upeu.asistenciaupeujc.ui.presentation.screens.materiales
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,41 +11,41 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pe.edu.upeu.asistenciaupeujc.modelo.Actividad
-import pe.edu.upeu.asistenciaupeujc.modelo.Materialesx
-import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesxReport
+import pe.edu.upeu.asistenciaupeujc.modelo.Materiales
+import pe.edu.upeu.asistenciaupeujc.modelo.MaterialesReport
 import pe.edu.upeu.asistenciaupeujc.repository.ActividadRepository
-import pe.edu.upeu.asistenciaupeujc.repository.MaterialesxRepository
+import pe.edu.upeu.asistenciaupeujc.repository.MaterialesRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class MaterialesxFormViewModel @Inject constructor(
-    private val materRepo: MaterialesxRepository,
+class MaterialesFormViewModel @Inject constructor(
+    private val materRepo: MaterialesRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
 
-    fun getMaterialesx(idX: Long): LiveData<Materialesx> {
-        return materRepo.buscarMaterialesxId(idX)
+    fun getMateriales(idX: Long): LiveData<Materiales> {
+        return materRepo.buscarMaterialesId(idX)
     }
 
     val isLoading: LiveData<Boolean> get() = _isLoading
 
 
-    fun addMaterialesx(materialesx: Materialesx){
+    fun addMateriales(materiales: Materiales){
         viewModelScope.launch (Dispatchers.IO){
             try {
-                materRepo.insertarMaterialesx(materialesx)
+                materRepo.insertarMateriales(materiales)
             }catch (e:Exception){
                 Log.i("ERRRRR", "${e.message}")
             }
         }
     }
-    fun editMaterialesx(materialesx: Materialesx){
+    fun editMateriales(materiales: Materiales){
         viewModelScope.launch(Dispatchers.IO){
             try {
-                materRepo.modificarRemoteMaterialesx(materialesx)
+                materRepo.modificarRemoteMateriales(materiales)
             }catch (e:Exception){
                 Log.i("ERRRRREDI", "${e.message}")
             }

@@ -8,6 +8,8 @@ import pe.edu.upeu.asistenciaupeujc.repository.ActividadRepository
 import pe.edu.upeu.asistenciaupeujc.repository.ActividadRepositoryImp
 import pe.edu.upeu.asistenciaupeujc.repository.MaterialesxRepository
 import pe.edu.upeu.asistenciaupeujc.repository.MaterialesxRepositoryImp
+import pe.edu.upeu.asistenciaupeujc.repository.MaterialesRepository
+import pe.edu.upeu.asistenciaupeujc.repository.MaterialesRepositoryImp
 import pe.edu.upeu.asistenciaupeujc.repository.UsuarioRepository
 import pe.edu.upeu.asistenciaupeujc.repository.UsuarioRepositoryImp
 import javax.inject.Singleton
@@ -28,5 +30,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun materialesxRepository(actRepos:MaterialesxRepositoryImp): MaterialesxRepository
+
+    @Binds
+    @Singleton
+    abstract fun materialesRepository(actRepos:MaterialesRepositoryImp): MaterialesRepository
 
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "b246f7ceaab4d9b7b5e0bd6f562e4ef1",
+    "identityHash": "83a9693ddcaed9c2cf4c85f568465e9a",
     "entities": [
       {
         "tableName": "actividad",
@@ -110,7 +110,7 @@
       },
       {
         "tableName": "materialesx",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cui` TEXT NOT NULL, `tipoCui` TEXT NOT NULL, `materEntre` TEXT NOT NULL, `fecha` TEXT NOT NULL, `horaReg` TEXT NOT NULL, `latituda` TEXT NOT NULL, `longituda` TEXT NOT NULL, `modFh` TEXT NOT NULL, `offlinex` TEXT NOT NULL, `actividadId` INTEGER NOT NULL, FOREIGN KEY(`actividadId`) REFERENCES `actividad`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cui` TEXT NOT NULL, `tipoCui` TEXT NOT NULL, `materEntre` TEXT NOT NULL, `fecha` TEXT NOT NULL, `horaReg` TEXT NOT NULL, `latituda` TEXT NOT NULL, `longituda` TEXT NOT NULL, `modFh` TEXT NOT NULL, `offlinex` TEXT NOT NULL, `actividadId` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -186,25 +186,13 @@
           ]
         },
         "indices": [],
-        "foreignKeys": [
-          {
-            "table": "actividad",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "actividadId"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b246f7ceaab4d9b7b5e0bd6f562e4ef1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '83a9693ddcaed9c2cf4c85f568465e9a')"
     ]
   }
 }
